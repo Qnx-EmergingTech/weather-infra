@@ -4,6 +4,6 @@
   tasks:
     - name: Deploy
       ansible.builtin.shell: |
-        cd deploy/frontend
+        cd deploy/app
         docker pull ghcr.io/qnx-emergingtech/weatheringwithu:dev
         docker compose up -d
