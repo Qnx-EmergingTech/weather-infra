@@ -1,25 +1,17 @@
-FROM node:20-alpine as builder
+version: '3'
+services:
 
-WORKDIR /app
+ app:
+    image: ghcr.io/qnx-emergingtech/weatheringwithu
+    ports:
+      - "5000:5000"
 
-COPY package*.json ./
-
-# Install dependencies, including Vite
-RUN npm install
-
-COPY . .
-
-RUN npm run build
-
-# Stage 2: Serving the application
-FROM node:20-alpine
-
-WORKDIR /app
-
-RUN rm -rf .git
-
-COPY --from=builder /app/dist .
-
-RUN npm install -g serve
-
-CMD ["serve", "-s", ".", "-l", "tcp://0.0.0.0:8080"]
+ nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./app:/app
+    depends_on:
+      - app
