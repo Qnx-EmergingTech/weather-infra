@@ -1,13 +1,13 @@
 ### Weathering With U Deployment
 
 ### Configuring Github
-Set the repository secret for SSH_PRIVATE_KEY and VAULT_PASSWORD
+1.Set the repository secret for SSH_PRIVATE_KEY and VAULT_PASSWORD
 
-Update the inventory file for the server ip
+2.Update the inventory file for the server ip
 
-Clone this repository inside the server as deploy directory
+3.Clone this repository inside the server as deploy directory
 
-Run the action to verify the configuration
+4.Run the action to verify the configuration
 
 ### Install ansible
 sudo apt install ansible-core
