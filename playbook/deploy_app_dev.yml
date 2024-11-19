@@ -1,0 +1,9 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Deploy
+      ansible.builtin.shell: |
+        cd deploy/frontend
+        docker pull ghcr.io/qnx-emergingtech/weatheringwithu:dev
+        docker compose up -d
