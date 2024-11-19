@@ -2,7 +2,7 @@ all:
   children:
     ubuntu:
       hosts:
-        54.198.49.102:
+        34.229.101.16:
   vars:
     ansible_connection: ssh
     ansible_user: !vault |
