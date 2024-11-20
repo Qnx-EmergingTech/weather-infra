@@ -1,0 +1,39 @@
+name: deploy-app-pong
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    name: Deploy app Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: deploy_app_dev.yml
+          directory: playbook
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          vault_password: ${{secrets.VAULT_PASSWORD}}
+          options: |
+            --inventory inventory.yml
+
+      - name: Trigger Specific Workflow
+        if: github.event_name == 'ping'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO_NAME=qnx-emergingtech/weather-infra
+          WORKFLOW_FILE=deploy_app_dev.yml
+          
+          # Trigger workflow
+          curl -X POST \
+            https://api.github.com/repos/${REPO_NAME}/actions/workflows/${WORKFLOW_FILE}/dispatches \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -d '{"ref":"main"}'
+          
+          echo "Workflow '$WORKFLOW_FILE' triggered on branch 'main'"
