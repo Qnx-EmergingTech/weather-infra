@@ -5,6 +5,8 @@ services:
     image: ghcr.io/qnx-emergingtech/weatheringwithu:dev
     ports:
       - "5000:5000"
+    env_file:
+      - .env
 
  nginx:
     image: nginx:latest
